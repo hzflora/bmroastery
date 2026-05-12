@@ -29,32 +29,40 @@
         private void InitializeComponent()
         {
             this.flpMasalar = new System.Windows.Forms.FlowLayoutPanel();
-            this.btnCiro = new System.Windows.Forms.Button();
+            this.btnKullanici = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // flpMasalar
             // 
+            this.flpMasalar.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.flpMasalar.AutoScroll = true;
             this.flpMasalar.Location = new System.Drawing.Point(12, 12);
             this.flpMasalar.Name = "flpMasalar";
-            this.flpMasalar.Size = new System.Drawing.Size(776, 204);
+            this.flpMasalar.Size = new System.Drawing.Size(496, 273);
             this.flpMasalar.TabIndex = 0;
             // 
-            // btnCiro
+            // btnKullanici
             // 
-            this.btnCiro.Location = new System.Drawing.Point(665, 400);
-            this.btnCiro.Name = "btnCiro";
-            this.btnCiro.Size = new System.Drawing.Size(123, 38);
-            this.btnCiro.TabIndex = 1;
-            this.btnCiro.Text = "Günlük Ciro Raporu";
-            this.btnCiro.UseVisualStyleBackColor = true;
+            this.btnKullanici.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnKullanici.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.btnKullanici.Location = new System.Drawing.Point(12, 295);
+            this.btnKullanici.Name = "btnKullanici";
+            this.btnKullanici.Size = new System.Drawing.Size(160, 38);
+            this.btnKullanici.TabIndex = 1;
+            this.btnKullanici.Text = "Kullanıcı Değiştir";
+            this.btnKullanici.UseVisualStyleBackColor = true;
+            this.btnKullanici.Click += new System.EventHandler(this.btnKullanici_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.btnCiro);
+            this.ClientSize = new System.Drawing.Size(523, 341);
+            this.Controls.Add(this.btnKullanici);
             this.Controls.Add(this.flpMasalar);
+            this.MinimumSize = new System.Drawing.Size(539, 380);
             this.Name = "Form1";
             this.Text = "B&M Roastery - Sipariş Sistemi";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -65,7 +73,7 @@
         #endregion
 
         private System.Windows.Forms.FlowLayoutPanel flpMasalar;
-        private System.Windows.Forms.Button btnCiro;
+        private System.Windows.Forms.Button btnKullanici;
     }
 }
 

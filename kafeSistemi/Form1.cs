@@ -22,6 +22,7 @@ namespace kafeSistemi
         private void Form1_Load(object sender, EventArgs e)
         {
             MasalariYukle();
+
         }
 
         private void MasalariYukle()
@@ -34,7 +35,17 @@ namespace kafeSistemi
                 {
                     conn.Open();
                     // Tablodaki isimlerin SQL ile birebir aynı (masaID, masaNo vb.) olmasına dikkat et
-                    string query = "SELECT masaID, masaNo, durum FROM Masalar";
+                    string query = @"
+                    SELECT masaID, masaNo, durum 
+                    FROM Masalar 
+                    ORDER BY 
+                        CASE 
+                            WHEN masaNo LIKE 'Masa%' THEN 1 
+                            WHEN masaNo LIKE 'Bahçe%' THEN 2 
+                            ELSE 3 
+                        END, 
+                        LENGTH(masaNo), 
+                        masaNo";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     MySqlDataReader reader = cmd.ExecuteReader();
 
@@ -76,12 +87,16 @@ namespace kafeSistemi
         private void Masa_Click(object sender, EventArgs e)
         {
             Button tiklananMasa = sender as Button;
-            int masaID = Convert.ToInt32(tiklananMasa.Tag);
-
-            // Şimdilik sadece test amaçlı bir mesaj kutusu gösteriyoruz.
-            // İleride buraya SiparisForm'unu açma kodlarını yazacağız.
-            MessageBox.Show($"Tıklanan Masa ID: {masaID}\nSipariş formu açılacak...");
+            int secilenMasaID = Convert.ToInt32(tiklananMasa.Tag);
+            string masaAdi = tiklananMasa.Text;
+            SiparisForm frmSiparis = new SiparisForm(secilenMasaID, masaAdi);
+            frmSiparis.ShowDialog();
+            MasalariYukle();
         }
 
+        private void btnKullanici_Click(object sender, EventArgs e)
+        {
+            Application.Restart();
+        }
     }
 }

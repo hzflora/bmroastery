@@ -28,93 +28,110 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.button1 = new System.Windows.Forms.Button();
-            this.btnOdeme = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            this.cbUrunler = new System.Windows.Forms.ComboBox();
+            this.nudAdet = new System.Windows.Forms.NumericUpDown();
+            this.btnEkle = new System.Windows.Forms.Button();
+            this.btnHesapOdendi = new System.Windows.Forms.Button();
+            this.lblToplamTutar = new System.Windows.Forms.Label();
+            this.lstAdisyon = new System.Windows.Forms.ListBox();
+            ((System.ComponentModel.ISupportInitialize)(this.nudAdet)).BeginInit();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // cbUrunler
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(315, 10);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(240, 302);
-            this.dataGridView1.TabIndex = 0;
+            this.cbUrunler.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbUrunler.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.cbUrunler.FormattingEnabled = true;
+            this.cbUrunler.Location = new System.Drawing.Point(11, 23);
+            this.cbUrunler.Name = "cbUrunler";
+            this.cbUrunler.Size = new System.Drawing.Size(233, 28);
+            this.cbUrunler.TabIndex = 1;
             // 
-            // comboBox1
+            // nudAdet
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(11, 27);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(151, 21);
-            this.comboBox1.TabIndex = 1;
+            this.nudAdet.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.nudAdet.Location = new System.Drawing.Point(11, 85);
+            this.nudAdet.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudAdet.Name = "nudAdet";
+            this.nudAdet.Size = new System.Drawing.Size(49, 26);
+            this.nudAdet.TabIndex = 2;
+            this.nudAdet.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
-            // numericUpDown1
+            // btnEkle
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(180, 27);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(49, 20);
-            this.numericUpDown1.TabIndex = 2;
+            this.btnEkle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.btnEkle.Location = new System.Drawing.Point(118, 85);
+            this.btnEkle.Name = "btnEkle";
+            this.btnEkle.Size = new System.Drawing.Size(107, 33);
+            this.btnEkle.TabIndex = 3;
+            this.btnEkle.Text = "Siparişi Ekle";
+            this.btnEkle.UseVisualStyleBackColor = true;
+            this.btnEkle.Click += new System.EventHandler(this.btnEkle_Click);
             // 
-            // button1
+            // btnHesapOdendi
             // 
-            this.button1.Location = new System.Drawing.Point(11, 116);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnHesapOdendi.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.btnHesapOdendi.Location = new System.Drawing.Point(11, 482);
+            this.btnHesapOdendi.Name = "btnHesapOdendi";
+            this.btnHesapOdendi.Size = new System.Drawing.Size(233, 38);
+            this.btnHesapOdendi.TabIndex = 4;
+            this.btnHesapOdendi.Text = "Ödemeyi Al / Masayı Kapat ";
+            this.btnHesapOdendi.UseVisualStyleBackColor = true;
+            this.btnHesapOdendi.Click += new System.EventHandler(this.btnHesapOdendi_Click);
             // 
-            // btnOdeme
+            // lblToplamTutar
             // 
-            this.btnOdeme.Location = new System.Drawing.Point(405, 338);
-            this.btnOdeme.Name = "btnOdeme";
-            this.btnOdeme.Size = new System.Drawing.Size(150, 38);
-            this.btnOdeme.TabIndex = 4;
-            this.btnOdeme.Text = "Ödemeyi Al / Masayı Kapat ";
-            this.btnOdeme.UseVisualStyleBackColor = true;
+            this.lblToplamTutar.AutoSize = true;
+            this.lblToplamTutar.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.lblToplamTutar.Location = new System.Drawing.Point(12, 441);
+            this.lblToplamTutar.Name = "lblToplamTutar";
+            this.lblToplamTutar.Size = new System.Drawing.Size(168, 26);
+            this.lblToplamTutar.TabIndex = 5;
+            this.lblToplamTutar.Text = "Toplam: 0.00 TL";
             // 
-            // label1
+            // lstAdisyon
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(312, 351);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "label1";
+            this.lstAdisyon.FormattingEnabled = true;
+            this.lstAdisyon.Location = new System.Drawing.Point(250, 12);
+            this.lstAdisyon.Name = "lstAdisyon";
+            this.lstAdisyon.Size = new System.Drawing.Size(291, 511);
+            this.lstAdisyon.TabIndex = 6;
+            this.lstAdisyon.DoubleClick += new System.EventHandler(this.lstAdisyon_DoubleClick);
             // 
             // SiparisForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(567, 388);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.btnOdeme);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.numericUpDown1);
-            this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.dataGridView1);
+            this.ClientSize = new System.Drawing.Size(553, 532);
+            this.Controls.Add(this.lstAdisyon);
+            this.Controls.Add(this.lblToplamTutar);
+            this.Controls.Add(this.btnHesapOdendi);
+            this.Controls.Add(this.btnEkle);
+            this.Controls.Add(this.nudAdet);
+            this.Controls.Add(this.cbUrunler);
             this.Name = "SiparisForm";
             this.Text = "SiparisForm";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            this.Load += new System.EventHandler(this.SiparisForm_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.nudAdet)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button btnOdeme;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox cbUrunler;
+        private System.Windows.Forms.NumericUpDown nudAdet;
+        private System.Windows.Forms.Button btnEkle;
+        private System.Windows.Forms.Button btnHesapOdendi;
+        private System.Windows.Forms.Label lblToplamTutar;
+        private System.Windows.Forms.ListBox lstAdisyon;
     }
 }

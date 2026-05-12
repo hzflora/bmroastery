@@ -74,6 +74,8 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnGarson);
             this.Controls.Add(this.btnYonetici);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "GirisForm";
             this.Text = "GirisForm";
             this.ResumeLayout(false);

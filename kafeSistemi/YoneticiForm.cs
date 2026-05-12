@@ -21,6 +21,7 @@ namespace kafeSistemi
 
         DatabaseHelper dbHelper = new DatabaseHelper();
         int _secilenUrunID = 0;
+        int _secilenMasaID = 0;
         private void FormuTemizle()
         {
             tbUrunAdi.Clear();
@@ -30,6 +31,24 @@ namespace kafeSistemi
 
             _secilenUrunID = 0;
         }
+
+        private void MasalariListele()
+        {
+            using (MySqlConnection conn = dbHelper.GetConnection())
+            {
+                string query = "SELECT masaID, masaNo, durum FROM Masalar";
+                MySqlDataAdapter da = new MySqlDataAdapter(query, conn);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                dgvMasalar.DataSource = dt;
+
+                // Tabloyu biraz güzelleştirelim
+                dgvMasalar.Columns["masaID"].HeaderText = "ID";
+                dgvMasalar.Columns["masaNo"].HeaderText = "Masa Adı";
+                dgvMasalar.Columns["durum"].HeaderText = "Doluluk (0:Boş, 1:Dolu)";
+            }
+        }
+
         private void UrunleriGetir()
         {
             using (MySqlConnection conn = dbHelper.GetConnection())
@@ -51,16 +70,6 @@ namespace kafeSistemi
                     MessageBox.Show("Ürünleri çekerken bir hata oluştu: " + ex.Message);
                 }
             }
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void btnCiro_Click(object sender, EventArgs e)
@@ -146,6 +155,8 @@ namespace kafeSistemi
         private void YoneticiForm_Load(object sender, EventArgs e)
         {
             UrunleriGetir();
+            cbMasaFiltre.SelectedIndex = 0;
+            cbFiltre.SelectedIndex = 0;
             tabControl1.Size = new Size(830, 388);
             this.Size = new Size(870, 451);
         }
@@ -154,6 +165,7 @@ namespace kafeSistemi
         {
             if (tabControl1.SelectedIndex == 0) // 1. Sekme: Menü Yönetimi (Büyük Form)
             {
+                UrunleriGetir();
                 tabControl1.Size = new Size(830, 388);
                 this.Size = new Size(870, 451);
             }
@@ -164,7 +176,13 @@ namespace kafeSistemi
             }
             else if (tabControl1.SelectedIndex == 2) // 3. Sekme: Masa Yönetimi
             {
-                this.Size = new Size(450, 400);
+                MasalariListele();
+                tabControl1.Size = new Size(420, 416);
+                this.Size = new Size(460, 479);
+            }
+            else if (tabControl1.SelectedIndex == 3)
+            {
+                Application.Restart();
             }
         }
 
@@ -271,6 +289,141 @@ namespace kafeSistemi
 
             {
                 e.Handled = true;
+            }
+        }
+
+        private void btnMasaEkle_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(tbMasaNo.Text))
+            {
+                MessageBox.Show("Lütfen bir masa adı girin!");
+                return;
+            }
+
+            using (MySqlConnection conn = dbHelper.GetConnection())
+            {
+                string query = "INSERT INTO Masalar (masaNo, durum) VALUES (@ad, 0)";
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@ad", tbMasaNo.Text);
+
+                conn.Open();
+                cmd.ExecuteNonQuery();
+                MessageBox.Show(tbMasaNo.Text + " başarıyla eklendi.");
+                tbMasaNo.Clear();
+                MasalariListele(); // Listeyi yenile
+            }
+        }
+
+        private void btnMasaSil_Click(object sender, EventArgs e)
+        {
+            if (dgvMasalar.CurrentRow == null) return;
+
+            int secilenID = Convert.ToInt32(dgvMasalar.CurrentRow.Cells["masaID"].Value);
+            int durum = Convert.ToInt32(dgvMasalar.CurrentRow.Cells["durum"].Value);
+
+            if (durum == 1)
+            {
+                MessageBox.Show("Dolu olan bir masayı silemezsiniz! Önce hesabın kapatılması gerekir.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return;
+            }
+
+            DialogResult eminMisiniz = MessageBox.Show("Bu masayı tamamen silmek istediğinize emin misiniz?", "Masa Sil", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (eminMisiniz == DialogResult.Yes)
+            {
+                using (MySqlConnection conn = dbHelper.GetConnection())
+                {
+                    string query = "DELETE FROM Masalar WHERE masaID = @id";
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@id", secilenID);
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    MasalariListele();
+                }
+            }
+        }
+
+        private void dgvMasalar_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dgvMasalar.Rows[e.RowIndex];
+
+                _secilenMasaID = Convert.ToInt32(row.Cells["masaID"].Value);
+                tbMasaNo.Text = row.Cells["masaNo"].Value.ToString();
+            }
+        }
+
+        private void btnMasaGuncelle_Click(object sender, EventArgs e)
+        {
+            if (_secilenMasaID == 0)
+            {
+                MessageBox.Show("Lütfen önce listeden ismini değiştirmek istediğiniz masayı seçin!", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(tbMasaNo.Text))
+            {
+                MessageBox.Show("Masa adı boş bırakılamaz!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            using (MySqlConnection conn = dbHelper.GetConnection())
+            {
+                string query = "UPDATE Masalar SET masaNo = @ad WHERE masaID = @id";
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@ad", tbMasaNo.Text);
+                cmd.Parameters.AddWithValue("@id", _secilenMasaID);
+
+                conn.Open();
+                cmd.ExecuteNonQuery();
+
+                MessageBox.Show("Masa adı başarıyla güncellendi.");
+
+                // İşlem bitince formu temizle
+                tbMasaNo.Clear();
+                _secilenMasaID = 0;
+                MasalariListele(); // Tabloyu yenile
+            }
+        }
+
+        private void cbMasaFiltre_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbMasaFiltre.SelectedItem == null) return;
+
+            string secim = cbMasaFiltre.SelectedItem.ToString();
+
+            // Varsayılan sorgumuz: Tüm masaları getir
+            string query = "SELECT masaID, masaNo, durum FROM Masalar";
+
+            // Eğer "Tümü" dışında bir şey seçildiyse sorguya LIKE şartı ekle
+            if (secim != "Tümü")
+            {
+                // Örn: WHERE masaNo LIKE 'Bahçe%' 
+                // (% işareti, "Bahçe ile başlasın, devamı ne olursa olsun" anlamına gelir)
+                query += " WHERE masaNo LIKE @prefix";
+            }
+
+            using (MySqlConnection conn = dbHelper.GetConnection())
+            {
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+
+                if (secim != "Tümü")
+                {
+                    cmd.Parameters.AddWithValue("@prefix", secim + "%");
+                }
+
+                try
+                {
+                    MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    dgvMasalar.DataSource = dt;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Filtreleme sırasında hata oluştu: " + ex.Message);
+                }
             }
         }
     }
